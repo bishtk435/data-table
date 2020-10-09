@@ -1,0 +1,23 @@
+table {
+  width: 100%;
+}
+
+td {
+  width: 10%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.mat-column-App {
+    width: 28% ;
+}
+
+.mat-cell {
+    padding-left: 30px;
+}
+
+.mat-header-cell {
+    padding-left: 30px;
+}
