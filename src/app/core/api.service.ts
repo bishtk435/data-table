@@ -2,21 +2,27 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
-
   SERVER_ADDRESS = 'http://localhost:8080';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getData(route: string): any{
+  getData(route: string): any {
     return this.http.get(this.SERVER_ADDRESS + route);
   }
 
-  getSortedDate(route: string, fieldName: string): any{
+  getSortedData(route: string, fieldName: string): any {
+    const params = new HttpParams().set('sort', fieldName);
+    return this.http.get(this.SERVER_ADDRESS + route, { params });
+  }
+
+  getData2(route: string, filters: object, sort: string, pageNo: string): any {
     const params = new HttpParams()
-      .set('sort', fieldName);
-    return this.http.get(this.SERVER_ADDRESS + route, {params} );
+      .set('sort', JSON.stringify(sort))
+      .set('filters', JSON.stringify(filters))
+      .set('page', pageNo);
+    return this.http.get(this.SERVER_ADDRESS + route, { params });
   }
 }

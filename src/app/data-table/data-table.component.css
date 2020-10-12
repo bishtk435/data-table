@@ -21,3 +21,26 @@ th.mat-sort-header-sorted {
 .mat-header-cell {
     padding-left: 30px;
 }
+
+.filter {
+  margin-left: 40px;
+}
+
+.mat-elevation-z8 {
+  margin-top: 20px;
+}
+
+.mat-elevation-z8 p {
+  display: inline;
+  margin-left: 20px;
+}
+
+#more {
+  display: inline-block;
+  float: right;
+  margin-top: 20px;
+}
+
+#loader {
+  z-index: 10;
+}
