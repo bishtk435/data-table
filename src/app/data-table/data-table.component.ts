@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Categories } from './categories';
 import { Genres } from './genres';
+import { Types } from './types';
 
 @Component({
   selector: 'app-data-table',
@@ -19,37 +20,35 @@ export class DataTableComponent implements OnInit {
   categories = Categories;
   genres = Genres;
   displayedColumns = Columns;
+  types = Types;
   sortingList = ['Rating', 'Reviews', 'Size', 'Name', 'Installs'];
   dataSource: any;
   page = -1;
   sortingBy = null;
   selectedGenre = null;
   selectedCategory = null;
+  selectedType = null;
   filters = {};
   appSearch = '';
+  noResultFound = false;
 
   ngOnInit(): void {
     this.api.getData('/get-data').subscribe((resp) => {
-      console.log('this is response: ', resp);
       this.dataSource = new MatTableDataSource(resp);
+      console.log('this is initial data: ', this.dataSource);
       this.dataSource.sort = this.sort;
     });
   }
 
   getSortedData(): void {
-    // this.api.getSortedData('/get-sorted-data', fieldName).subscribe((resp) => {
-    //   console.log('this is response: ', resp);
-    //   this.dataSource = new MatTableDataSource(resp);
-    //   this.dataSource.paginator = this.paginator;
-    //   this.dataSource.sort = this.sort;
-    // });
     this.page = this.page + 1;
     this.api
       .getData2(
         '/get-data-updated',
         { Category: this.selectedCategory },
         this.sortingBy,
-        JSON.stringify(this.page)
+        JSON.stringify(this.page),
+        this.appSearch
       )
       .subscribe((resp) => {
         console.log('this is resp: ', resp);
@@ -58,33 +57,55 @@ export class DataTableComponent implements OnInit {
       });
   }
 
-  loadMoreData(): void {
-    this.page = this.page + 1;
+  loadMoreData(buttonType: string): void {
+    this.noResultFound = false;
+
+    if (buttonType === 'next') {
+      this.page = this.page + 1;
+    } else if (buttonType === 'previous') {
+      this.page = this.page - 1;
+    }
+
     this.api
       .getData2(
         '/get-data-updated',
         this.filters,
         this.sortingBy,
-        JSON.stringify(this.page)
+        JSON.stringify(this.page),
+        this.appSearch
       )
-      .subscribe((resp) => {
-        console.log('this is resp: ', resp);
-        this.dataSource = new MatTableDataSource(resp);
-      });
+      .subscribe(
+        (resp) => {
+          this.dataSource = new MatTableDataSource(resp);
+          this.dataSource.sort = this.sort;
+        },
+        (err) => {
+          console.log('this is error', err.error);
+          this.dataSource = [];
+          this.noResultFound = true;
+        }
+      );
   }
 
   getFilteredResult(): void {
-    if (this.selectedCategory) {
+    this.filters = {};
+    this.noResultFound = false;
+    if (this.selectedCategory && this.selectedCategory !== 'ALL') {
       // tslint:disable-next-line: no-string-literal
       this.filters['Category'] = this.selectedCategory;
     }
-    if (this.selectedGenre) {
+    if (this.selectedGenre && this.selectedGenre !== 'ALL') {
       // tslint:disable-next-line: no-string-literal
-      this.filters['Genre'] = this.selectedGenre;
+      this.filters['Genres'] = this.selectedGenre;
     }
 
     if (!this.sortingBy) {
       this.sortingBy = 'Name';
+    }
+
+    if (this.selectedType && this.selectedType !== 'ALL') {
+      // tslint:disable-next-line: no-string-literal
+      this.filters['Type'] = this.selectedType;
     }
 
     this.page = 0;
@@ -93,12 +114,20 @@ export class DataTableComponent implements OnInit {
         '/get-data-updated',
         this.filters,
         this.sortingBy,
-        JSON.stringify(this.page)
+        JSON.stringify(this.page),
+        this.appSearch
       )
-      .subscribe((resp) => {
-        console.log('this is resp: ', resp);
-        this.dataSource = new MatTableDataSource(resp);
-        this.dataSource.sort = this.sort;
-      });
+      .subscribe(
+        (resp) => {
+          this.dataSource = new MatTableDataSource(resp);
+          console.log('this is filtered data: ', this.dataSource);
+          this.dataSource.sort = this.sort;
+        },
+        (err) => {
+          console.log('this is error', err.error);
+          this.dataSource = [];
+          this.noResultFound = true;
+        }
+      );
   }
 }

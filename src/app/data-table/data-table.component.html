@@ -15,8 +15,16 @@
         {{ genre.viewValue }}
       </mat-option>
     </mat-select>
-  </mat-form-field> 
-  <br>
+  </mat-form-field>
+  <mat-form-field class="filter">
+    <mat-label>Types</mat-label>
+    <mat-select [(value)]="selectedType">
+      <mat-option *ngFor="let type of types" [value]="type.value">
+        {{ type.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br />
   <p>Sort list by:</p>
   <mat-form-field class="filter">
     <mat-label>Field Name</mat-label>
@@ -26,20 +34,21 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <br>
+  <br />
   <p>Search by App Name:</p>
   <mat-form-field class="filter">
     <mat-label>App Name</mat-label>
-    <input matInput type="text" [(ngModel)]="appSearch" autocomplete="off">
-    <button mat-button *ngIf="appSearch" matSuffix mat-icon-button aria-label="Clear" >
-    </button>
+    <input matInput type="text" [(ngModel)]="appSearch" autocomplete="off" />
+    <button
+      mat-button
+      *ngIf="appSearch"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+    ></button>
   </mat-form-field>
-<br>
-   <button
-    color="primary"
-    mat-button
-    (click)="getFilteredResult()"
-  >
+  <br />
+  <button color="primary" mat-button (click)="getFilteredResult()">
     Submit
   </button>
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
@@ -82,8 +91,19 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-  <button id="more" color="accent" mat-button (click)="loadMoreData()">
-    Load More...
+  <br />
+  <p class="notFound" *ngIf="noResultFound">No result!!</p>
+  <button class="more" color="accent" mat-button (click)="loadMoreData('next')">
+    Next
+  </button>
+  <button
+    [disabled]="page === 0 || page === -1"
+    class="more"
+    color="accent"
+    mat-button
+    (click)="loadMoreData('previous')"
+  >
+    Previous
   </button>
   <!-- <mat-paginator
     [pageSizeOptions]="[8, 15, 20]"

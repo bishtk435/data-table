@@ -18,11 +18,18 @@ export class ApiService {
     return this.http.get(this.SERVER_ADDRESS + route, { params });
   }
 
-  getData2(route: string, filters: object, sort: string, pageNo: string): any {
+  getData2(
+    route: string,
+    filters: object,
+    sort: string,
+    pageNo: string,
+    namePattern: string
+  ): any {
     const params = new HttpParams()
       .set('sort', JSON.stringify(sort))
       .set('filters', JSON.stringify(filters))
-      .set('page', pageNo);
+      .set('page', pageNo)
+      .set('namePattern', namePattern);
     return this.http.get(this.SERVER_ADDRESS + route, { params });
   }
 }

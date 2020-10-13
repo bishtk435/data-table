@@ -11,15 +11,15 @@ th.mat-sort-header-sorted {
 }
 
 .mat-column-App {
-    width: 28% ;
+  width: 28%;
 }
 
 .mat-cell {
-    padding-left: 30px;
+  padding-left: 30px;
 }
 
 .mat-header-cell {
-    padding-left: 30px;
+  padding-left: 30px;
 }
 
 .filter {
@@ -35,12 +35,17 @@ th.mat-sort-header-sorted {
   margin-left: 20px;
 }
 
-#more {
+.more {
   display: inline-block;
-  float: right;
   margin-top: 20px;
+  float: right;
 }
 
 #loader {
   z-index: 10;
+}
+
+.notFound {
+  margin-top: 25px !important;
+  color: red;
 }
