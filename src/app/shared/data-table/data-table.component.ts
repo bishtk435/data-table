@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ApiService } from '../core/api.service';
-import { Columns } from './columns-name';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ApiService } from '../../core/api.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Categories } from './categories';
@@ -13,13 +12,15 @@ import { Types } from './types';
   styleUrls: ['./data-table.component.css'],
 })
 export class DataTableComponent implements OnInit {
+
   @ViewChild(MatSort) sort: MatSort;
+  @Input() tableData: any;
+  @Input() displayedColumns: any;
 
   constructor(private api: ApiService) {}
 
   categories = Categories;
   genres = Genres;
-  displayedColumns = Columns;
   types = Types;
   sortingList = ['Rating', 'Reviews', 'Size', 'Name', 'Installs'];
   dataSource: any;
@@ -35,7 +36,6 @@ export class DataTableComponent implements OnInit {
   ngOnInit(): void {
     this.api.getData('/get-data').subscribe((resp) => {
       this.dataSource = new MatTableDataSource(resp);
-      console.log('this is initial data: ', this.dataSource);
       this.dataSource.sort = this.sort;
     });
   }
@@ -130,4 +130,5 @@ export class DataTableComponent implements OnInit {
         }
       );
   }
+
 }

@@ -49,3 +49,7 @@ th.mat-sort-header-sorted {
   margin-top: 25px !important;
   color: red;
 }
+
+/* table, th, td {
+  border: 1px solid black;  
+} */
