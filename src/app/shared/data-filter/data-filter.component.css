@@ -1,0 +1,15 @@
+.filter {
+    margin-left: 15px;
+    width: 50%;
+    background-color: lightcyan;
+    padding: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mat-raised-button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

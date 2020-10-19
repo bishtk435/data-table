@@ -22,10 +22,6 @@ th.mat-sort-header-sorted {
   padding-left: 30px;
 }
 
-.filter {
-  margin-left: 40px;
-}
-
 .mat-elevation-z8 {
   margin-top: 20px;
 }
@@ -49,7 +45,3 @@ th.mat-sort-header-sorted {
   margin-top: 25px !important;
   color: red;
 }
-
-/* table, th, td {
-  border: 1px solid black;  
-} */

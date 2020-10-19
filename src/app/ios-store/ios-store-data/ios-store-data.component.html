@@ -1,4 +1,10 @@
+<app-data-filter
+  [filterObject]="filterObject"
+  (getFilteredData)="loadFilteredData($event)"
+></app-data-filter>
+
 <app-data-table
   [tableData]="currentDataList"
   [displayedColumns]="displayedColumns"
+  (loadMoreData)="getMoreData($event)"
 ></app-data-table>

@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { PlaystoreRoutingModule } from './playstore-routing.module';
 import { PlaystoreDataComponent } from './playstore-data/playstore-data.component';
+import { FiltersComponent } from './filters/filters.component';
+
 
 
 @NgModule({
-  declarations: [PlaystoreDataComponent],
+  declarations: [PlaystoreDataComponent, FiltersComponent],
   imports: [
     CommonModule,
     PlaystoreRoutingModule,

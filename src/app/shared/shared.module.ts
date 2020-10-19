@@ -8,8 +8,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { DataFilterComponent } from './data-filter/data-filter.component';
+import { InputFieldComponent } from './input-field/input-field.component';
+import { SliderComponent } from './slider/slider.component';
+import { MatSliderModule } from '@angular/material/slider';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+
 @NgModule({
-  declarations: [DataTableComponent],
+  declarations: [
+    DataTableComponent,
+    DataFilterComponent,
+    InputFieldComponent,
+    SliderComponent,
+  ],
   imports: [
     CommonModule,
     MatTableModule,
@@ -18,8 +30,24 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     MatSelectModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatSliderModule,
+    MatCheckboxModule,
+    MatRadioModule
   ],
-  exports: [DataTableComponent],
+  exports: [
+    DataTableComponent,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatInputModule,
+    FormsModule,
+    MatSliderModule,
+    DataFilterComponent,
+    MatCheckboxModule,
+    MatRadioModule
+  ],
 })
 export class SharedModule {}
