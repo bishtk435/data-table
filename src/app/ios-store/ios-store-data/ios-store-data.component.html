@@ -1,0 +1,11 @@
+<app-data-filter
+  [filterObject]="filterObject"
+  (getFilteredData)="loadFilteredData($event)"
+></app-data-filter>
+
+<app-data-table
+  [tableData]="currentDataList"
+  (loadMoreData)="getMoreData($event)"
+  [displayedColumns]="displayedColumns"
+  [pageNo]="pageNo"
+></app-data-table>

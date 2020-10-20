@@ -9,16 +9,11 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  getData(route: string): any {
+  getInitialData(route: string): any {
     return this.http.get(this.SERVER_ADDRESS + route);
   }
 
-  getSortedData(route: string, fieldName: string): any {
-    const params = new HttpParams().set('sort', fieldName);
-    return this.http.get(this.SERVER_ADDRESS + route, { params });
-  }
-
-  getData2(
+  getData(
     route: string,
     filters: object,
     sort: string,
@@ -30,6 +25,40 @@ export class ApiService {
       .set('filters', JSON.stringify(filters))
       .set('page', pageNo)
       .set('namePattern', namePattern);
+    return this.http.get(this.SERVER_ADDRESS + route, { params });
+  }
+
+  getIosCategory(route: string): any {
+    return this.http.get(this.SERVER_ADDRESS + route);
+  }
+
+  getPlaystoreCategory(route: string): any{
+    return this.http.get(this.SERVER_ADDRESS + route);
+  }
+
+  getIosData(route: string, pageNo: string): any {
+    const params = new HttpParams().set('page', pageNo);
+    return this.http.get(this.SERVER_ADDRESS + route, { params });
+  }
+
+  getFilteredIosData(route: string, filters: object, pageNo: number): any {
+    const params = new HttpParams()
+      .set('filters', JSON.stringify(filters))
+      .set('page', JSON.stringify(pageNo));
+    return this.http.get(this.SERVER_ADDRESS + route, { params });
+  }
+
+  getSortedIosData(
+    route: string,
+    filter: object,
+    sortBy: string,
+    pageNo: number
+  ): any {
+    const params = new HttpParams()
+      .set('filters', JSON.stringify(filter))
+      .set('sortBy', sortBy)
+      .set('page', JSON.stringify(pageNo));
+
     return this.http.get(this.SERVER_ADDRESS + route, { params });
   }
 }
