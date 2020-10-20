@@ -5,6 +5,7 @@
 
 <app-data-table
   [tableData]="currentDataList"
-  [displayedColumns]="displayedColumns"
   (loadMoreData)="getMoreData($event)"
+  [displayedColumns]="displayedColumns"
+  [pageNo]="pageNo"
 ></app-data-table>

@@ -1,8 +1,9 @@
-<app-filters (getFilteredData)="loadFilteredData($event)"></app-filters>
-<!-- <app-data-filter [filterObject]="filterObject"></app-data-filter> -->
+<!-- <app-filters (getFilteredData)="loadFilteredData($event)"></app-filters> -->
+<app-data-filter [filterObject]="filterObject" (getFilteredData)="loadFilteredData($event)"></app-data-filter>
 <app-data-table
   [tableData]="currentDataList"
-  [displayedColumns]="displayedColumns"
   (loadMoreData)="getMoreData($event)"
+  [pageNo]="pageNo"
+  [displayedColumns]="displayedColumns"
 ></app-data-table>
 <p *ngIf="isRecordNotFound">No record found!!</p>

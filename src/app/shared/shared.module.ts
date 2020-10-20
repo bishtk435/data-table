@@ -14,6 +14,7 @@ import { SliderComponent } from './slider/slider.component';
 import { MatSliderModule } from '@angular/material/slider';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
+import { ColumnNamePipe } from './column-name.pipe';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {MatRadioModule} from '@angular/material/radio';
     DataFilterComponent,
     InputFieldComponent,
     SliderComponent,
+    ColumnNamePipe,
   ],
   imports: [
     CommonModule,

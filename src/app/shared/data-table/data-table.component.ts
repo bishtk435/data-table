@@ -1,4 +1,5 @@
 import {
+  AfterContentChecked,
   Component,
   EventEmitter,
   Input,
@@ -13,18 +14,25 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.css'],
 })
-export class DataTableComponent implements OnInit {
-  @ViewChild(MatSort) sort: MatSort;
+export class DataTableComponent implements OnInit, AfterContentChecked {
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
   @Input() tableData: any;
-  @Input() displayedColumns: any;
+  @Input() displayedColumns: [];
+  @Input() pageNo: number;
   @Output() loadMoreData = new EventEmitter();
+  @Output() requestSortedData = new EventEmitter();
+  count = 0;
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log('table data: ', this.displayedColumns);
+  ngOnInit(): void {}
+
+  ngAfterContentChecked(): void {
+    this.tableData.sort = this.sort;
   }
 
+  // tslint:disable-next-line: use-lifecycle-interface
   navigationRequest(path: string): void {
     this.loadMoreData.emit(path);
   }

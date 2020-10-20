@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Columns } from './columns';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../../core/api.service';
+import { IosStoreDataService } from './ios-store-data.service';
+
 import { filter } from './filters';
+import { Columns } from './columns';
 
 @Component({
   selector: 'app-ios-store-data',
@@ -11,16 +13,34 @@ import { filter } from './filters';
 })
 export class IosStoreDataComponent implements OnInit {
   currentDataList: any;
-  displayedColumns = Columns;
   pageNo = 0;
   filterObject = filter;
   filters = null;
+  displayedColumns = Columns;
 
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService,
+    private iosStoreDataService: IosStoreDataService
+  ) {}
 
   ngOnInit(): void {
     this.api.getInitialData('/get-initial-ios-data').subscribe((resp) => {
       this.currentDataList = new MatTableDataSource(resp);
+    });
+
+    console.log(
+      'headers from service: ',
+      this.iosStoreDataService.getTableHeaders()
+    );
+
+    this.api.getIosCategory('/get-ios-genre').subscribe((resp) => {
+      resp.forEach((item) => {
+        this.filterObject.forEach((col) => {
+          if (col.column_name === item.column_name) {
+            col['value'] = item.value;
+          }
+        });
+      });
     });
   }
 
@@ -40,17 +60,15 @@ export class IosStoreDataComponent implements OnInit {
       .getFilteredIosData('/get-filtered-ios-data', this.filters, this.pageNo)
       .subscribe(
         (resp) => {
-          console.log('this is data: ', resp);
           this.currentDataList = resp;
         },
         (err) => {
-          console.log('this is error!', err);
+          alert(err);
         }
       );
   }
 
   loadFilteredData(filterFormData: object): any {
-    console.log('in comp: ', filterFormData);
     const filters = {};
     if (filterFormData['prime_genre']) {
       filters['prime_genre'] = filterFormData['prime_genre'];

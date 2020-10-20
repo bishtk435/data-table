@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../core/api.service';
-import { Columns } from './columns';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter } from './filters';
+import { Columns } from './columns';
 
 @Component({
   selector: 'app-playstore-data',
@@ -10,14 +10,14 @@ import { filter } from './filters';
   styleUrls: ['./playstore-data.component.css'],
 })
 export class PlaystoreDataComponent implements OnInit {
-  displayedColumns = Columns;
   currentDataList: any;
   filters = {};
   sortBy = null;
   pattern = '';
-  pageNo = -1;
+  pageNo = 0;
   isRecordNotFound = false;
   filterObject = filter;
+  displayedColumns = Columns;
 
   constructor(private api: ApiService) {}
 
@@ -25,13 +25,25 @@ export class PlaystoreDataComponent implements OnInit {
     this.api.getInitialData('/get-initial-playstore-data').subscribe((resp) => {
       this.currentDataList = new MatTableDataSource(resp);
     });
+
+    this.api
+      .getPlaystoreCategory('/get-playstore-category')
+      .subscribe((resp) => {
+        resp.forEach((item) => {
+          this.filterObject.forEach((col) => {
+            if (col.column_name === item.column_name) {
+              col['value'] = item['value'];
+            }
+          });
+        });
+      });
   }
 
   loadFilteredData(filterFormData: object): void {
+    console.log('this is filter form data: ', filterFormData);
     this.isRecordNotFound = false;
-    console.log('in filter form: ', filterFormData);
 
-    this.pageNo = -1;
+    this.pageNo = 0;
 
     if (filterFormData['Category']) {
       this.filters['Category'] = filterFormData['Category'];
@@ -46,13 +58,6 @@ export class PlaystoreDataComponent implements OnInit {
     this.sortBy = filterFormData['sortBy'];
     this.pattern = filterFormData['pattern'];
 
-    console.log(
-      'in filters: ',
-      this.filters,
-      filterFormData['sortBy'],
-      filterFormData['pattern']
-    );
-
     this.pageNo = this.pageNo + 1;
 
     this.api
@@ -64,7 +69,6 @@ export class PlaystoreDataComponent implements OnInit {
         filterFormData['pattern']
       )
       .subscribe((resp) => {
-        console.log('this is response: ', resp);
         this.currentDataList = new MatTableDataSource(resp);
       });
   }

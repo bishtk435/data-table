@@ -15,11 +15,9 @@ export class DataFilterComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSubmit(formData: object): void {
-    console.log('in filter form: ', formData);
     this.getFilteredData.emit(formData);
   }
 }
